@@ -3,14 +3,31 @@
 <h1>{{ .Title | markdownify }}</h1>
 {{ .Content }}
 
-<h2>{{ .Site.Params.main.latestPublishHeader | default "My Latest Job" }}</h2>
-  {{ $pages := where site.RegularPages "Type" "in" .Site.Params.mainSections }}
-  {{ range first 1 $pages }}
-    {{ if in .Site.Params.mainSections "projects" }}
-      {{ partial "projects/item" .}}
-    {{ else if in .Site.Params.mainSections "post" }}
-      {{ partial "post/item" .}}
-    {{ end }}
-  {{ end }}
+{{ if .Site.Params.main.showLatestPublishHeader}}
+  <!-- <h2>{{ .Site.Params.main.latestPublishHeader | default "My Latest Job" }}</h2> -->
+    {{ $pages := where site.RegularPages "Type" "in" .Site.Params.mainSections }}
+    {{ range first 1 $pages }}
+      {{ if in .Site.Params.mainSections "projects" }}
+        {{ partial "projects/item" .}}
+      {{ else if in .Site.Params.mainSections "post" }}
+        {{ partial "post/item" .}}
+      {{ end }}
+    {{ end }} 
+{{ else }}
+  <div class="projects-list">
+    <a href="/projects/">
+      <div class="projects-container">
+        <img title="Model Compression Projects" alt="Model Compression Projects" src="/images/model_compression_summary.png" />
+        <div class="img-overlay">
+        </div>
+        <div class="projects-details">
+          <h2><span>Model Compression and Fine-Tuning</span></h2>
+        </div>
+      </div>
+    </a>
+  </div>
+{{ end }}
+
+
 
 {{ partial "footer" .}}
